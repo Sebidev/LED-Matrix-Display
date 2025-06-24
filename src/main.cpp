@@ -46,8 +46,8 @@ void setup() {
   configTzTime(tz, ntpServer);  // automatisch Sommer-/Winterzeit
 
   display.begin();
-  display.setIntensity(5);
   display.setTextAlignment(PA_CENTER);
+  //display.setIntensity(5);  // Helligkeit der LEDs
   display.displayClear();
 
   pixels.begin();  // zweites Objekt ebenfalls initialisieren
@@ -64,12 +64,8 @@ void loop() {
       struct tm timeinfo;
       if (getLocalTime(&timeinfo)) {
         char zeit[6];
-        sprintf(zeit, "%02d %02d", timeinfo.tm_hour, timeinfo.tm_min);
+        sprintf(zeit, "%02d:%02d", timeinfo.tm_hour, timeinfo.tm_min);
         display.print(zeit);
-
-        // manueller Doppelpunkt zwischen Stunde und Minute
-        pixels.setPoint(15, 2, true);
-        pixels.setPoint(15, 5, true);
       } else {
         display.print("NoNet");
       }
@@ -77,10 +73,12 @@ void loop() {
 
     } else {
       float temp = dht.readTemperature();
-      if (!isnan(temp)) {
-        char temperatur[8];
-        sprintf(temperatur, "%.0f\xDF""C", temp);  // °C → \xDF = Gradzeichen im Font
-        display.print(temperatur);
+      float hum = dht.readHumidity();
+
+      if (!isnan(temp) && !isnan(hum)) {
+        char zeile[16];
+        sprintf(zeile, "%.0f %.0f", temp, hum);
+        display.print(zeile);
       } else {
         display.print("Fehler");
       }
