@@ -3,6 +3,7 @@
 This project displays the current time, temperature, and humidity on a 4-module MAX7219 LED matrix, powered by an ESP32 and a DHT22 sensor.
 
 ![photo1](images/2025-06-24-23-14-48-713.jpg)
+![photo2](images/2025-06-24-23-14-48-713.jpg)
 ![photo2](images/2025-06-24-23-14-51-271.jpg)
 
 ## Features
